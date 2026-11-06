@@ -14,8 +14,11 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+
+import java.util.Collections;
 
 public class AdManager {
     private static final String TAG = "AdManager";
@@ -37,6 +40,12 @@ public class AdManager {
     }
 
     public void init(@NonNull Context context) {
+        // Register emulator as safe test device
+        RequestConfiguration requestConfiguration = new RequestConfiguration.Builder()
+                .setTestDeviceIds(Collections.singletonList(AdRequest.DEVICE_ID_EMULATOR))
+                .build();
+        MobileAds.setRequestConfiguration(requestConfiguration);
+
         MobileAds.initialize(context, initializationStatus -> {
             Log.d(TAG, "MobileAds initialized");
             loadInterstitial(context.getApplicationContext());
