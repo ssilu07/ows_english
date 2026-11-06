@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#03DAC5</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+
+
+    <!-- Fragment activity -->
+    <color name="textColor">#3f3b3b</color>
+    <color name="titleColor">#090909</color>
+    <color name="darkColor">#313131</color>
+    <color name="grey">#828080</color>
+    <color name="grey1">#4f4f4f</color>
+    <color name="grey2">#d6d6d6</color>
+</resources>

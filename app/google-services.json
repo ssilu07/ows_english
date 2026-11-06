@@ -1,0 +1,151 @@
+{
+  "project_info": {
+    "project_number": "935003372328",
+    "firebase_url": "https://all-exams-pdf-a22c7.firebaseio.com",
+    "project_id": "all-exams-pdf-a22c7",
+    "storage_bucket": "all-exams-pdf-a22c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:935003372328:android:5fc3b3fce70222f5c9ae1d",
+        "android_client_info": {
+          "package_name": "com.study.allexamspdf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "935003372328-ssu343o9nfo9ptf236de7uc9iaoss5ge.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.study.allexamspdf",
+            "certificate_hash": "17ceefe3a46a588a7816a25ed05ce8a7a8a0bcae"
+          }
+        },
+        {
+          "client_id": "935003372328-hfq5dv5n0q7vg6ubdjuujgi8100ko5tr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxEE0FQQ5tdNGMadxnpkkpm-of5S1UqLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "935003372328-hfq5dv5n0q7vg6ubdjuujgi8100ko5tr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:935003372328:android:f6d2727583bf0150c9ae1d",
+        "android_client_info": {
+          "package_name": "com.study.uploadpdffiles"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "935003372328-hfq5dv5n0q7vg6ubdjuujgi8100ko5tr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxEE0FQQ5tdNGMadxnpkkpm-of5S1UqLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "935003372328-hfq5dv5n0q7vg6ubdjuujgi8100ko5tr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:935003372328:android:325623952b91665dc9ae1d",
+        "android_client_info": {
+          "package_name": "com.study.vocab_special_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "935003372328-3fqj4pduchhv5khn2c0kgs7mmsqlava8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.study.vocab_special_admin",
+            "certificate_hash": "7414e166a277c0895ea265129fd05623eb9a5603"
+          }
+        },
+        {
+          "client_id": "935003372328-hfq5dv5n0q7vg6ubdjuujgi8100ko5tr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxEE0FQQ5tdNGMadxnpkkpm-of5S1UqLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "935003372328-hfq5dv5n0q7vg6ubdjuujgi8100ko5tr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:935003372328:android:beb8dbaaa36c2309c9ae1d",
+        "android_client_info": {
+          "package_name": "com.study.vocabspecial_crazywaytolearnenglish"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "935003372328-f6ri3b4lmk75on7fcpfa3hinjn4ftlqt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.study.vocabspecial_crazywaytolearnenglish",
+            "certificate_hash": "7414e166a277c0895ea265129fd05623eb9a5603"
+          }
+        },
+        {
+          "client_id": "935003372328-hfq5dv5n0q7vg6ubdjuujgi8100ko5tr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxEE0FQQ5tdNGMadxnpkkpm-of5S1UqLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "935003372328-hfq5dv5n0q7vg6ubdjuujgi8100ko5tr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

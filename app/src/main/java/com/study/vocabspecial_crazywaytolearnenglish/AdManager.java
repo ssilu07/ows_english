@@ -1,0 +1,142 @@
+package com.study.vocabspecial_crazywaytolearnenglish;
+
+import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+
+public class AdManager {
+    private static final String TAG = "AdManager";
+    private static AdManager instance;
+
+    private InterstitialAd mInterstitialAd;
+    private boolean isLoadingInterstitial = false;
+    private int clickCount = 0;
+    // Show interstitial every 3 clicks for optimal revenue + good user retention
+    private static final int INTERSTITIAL_FREQUENCY = 3;
+
+    private AdManager() {}
+
+    public static synchronized AdManager getInstance() {
+        if (instance == null) {
+            instance = new AdManager();
+        }
+        return instance;
+    }
+
+    public void init(@NonNull Context context) {
+        MobileAds.initialize(context, initializationStatus -> {
+            Log.d(TAG, "MobileAds initialized");
+            loadInterstitial(context.getApplicationContext());
+        });
+    }
+
+    public void loadInterstitial(@NonNull Context context) {
+        if (mInterstitialAd != null || isLoadingInterstitial) {
+            return;
+        }
+
+        isLoadingInterstitial = true;
+        AdRequest adRequest = new AdRequest.Builder().build();
+        String adUnitId = context.getString(R.string.admob_interstitial_id);
+
+        InterstitialAd.load(context, adUnitId, adRequest, new InterstitialAdLoadCallback() {
+            @Override
+            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                mInterstitialAd = interstitialAd;
+                isLoadingInterstitial = false;
+                Log.d(TAG, "Interstitial ad loaded successfully.");
+
+                mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                    @Override
+                    public void onAdDismissedFullScreenContent() {
+                        Log.d(TAG, "Interstitial ad dismissed.");
+                        mInterstitialAd = null;
+                        loadInterstitial(context);
+                    }
+
+                    @Override
+                    public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
+                        Log.e(TAG, "Interstitial ad failed to show: " + adError.getMessage());
+                        mInterstitialAd = null;
+                        loadInterstitial(context);
+                    }
+                });
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                mInterstitialAd = null;
+                isLoadingInterstitial = false;
+                Log.w(TAG, "Interstitial failed to load: " + loadAdError.getMessage());
+            }
+        });
+    }
+
+    public void showInterstitialWithCounter(@NonNull Activity activity, @NonNull Runnable onComplete) {
+        clickCount++;
+        if (clickCount % INTERSTITIAL_FREQUENCY == 0 && mInterstitialAd != null) {
+            mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                @Override
+                public void onAdDismissedFullScreenContent() {
+                    mInterstitialAd = null;
+                    loadInterstitial(activity.getApplicationContext());
+                    onComplete.run();
+                }
+
+                @Override
+                public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
+                    mInterstitialAd = null;
+                    loadInterstitial(activity.getApplicationContext());
+                    onComplete.run();
+                }
+            });
+            mInterstitialAd.show(activity);
+        } else {
+            // If ad is not ready or frequency not reached, proceed directly
+            if (mInterstitialAd == null) {
+                loadInterstitial(activity.getApplicationContext());
+            }
+            onComplete.run();
+        }
+    }
+
+    public void loadBanner(@NonNull Activity activity, @NonNull ViewGroup container) {
+        try {
+            AdView adView = new AdView(activity);
+            adView.setAdSize(AdSize.BANNER);
+            adView.setAdUnitId(activity.getString(R.string.admob_banner_id));
+            container.removeAllViews();
+            container.addView(adView);
+
+            AdRequest adRequest = new AdRequest.Builder().build();
+            adView.loadAd(adRequest);
+
+            adView.setAdListener(new AdListener() {
+                @Override
+                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                    Log.w(TAG, "Banner failed to load: " + loadAdError.getMessage());
+                }
+
+                @Override
+                public void onAdLoaded() {
+                    Log.d(TAG, "Banner loaded successfully.");
+                }
+            });
+        } catch (Exception e) {
+            Log.e(TAG, "Error loading banner", e);
+        }
+    }
+}

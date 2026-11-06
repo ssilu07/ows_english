@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
+    tools:context=".MainActivity">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginTop="20dp"
+          android:gravity="center"
+          android:orientation="vertical">
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:gravity="center"
+             android:text="Tricky Vocabs"
+             android:textColor="@android:color/black"
+             android:textSize="40sp"
+             android:textStyle="bold" />
+
+         <Button
+             android:id="@+id/study1"
+             android:layout_width="330dp"
+             android:layout_height="wrap_content"
+             android:layout_alignParentStart="true"
+             android:layout_alignParentEnd="true"
+             android:layout_marginTop="40dp"
+             android:background="@drawable/rounded_corner"
+             android:text="Chapter 1"
+             android:textColor="@android:color/white"
+             android:textStyle="bold" />
+
+         <com.google.android.gms.ads.AdView
+             xmlns:ads="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/adView1"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="5dp"
+             android:layout_centerHorizontal="true"
+             android:layout_alignParentBottom="true"
+             ads:adSize="BANNER"
+             ads:adUnitId="ca-app-pub-1811294933992844/9254313842">
+         </com.google.android.gms.ads.AdView>
+
+
+         <Button
+             android:id="@+id/study2"
+             android:layout_width="330dp"
+             android:layout_height="wrap_content"
+             android:layout_alignParentStart="true"
+             android:layout_alignParentEnd="true"
+             android:layout_marginStart="40dp"
+             android:layout_marginTop="20dp"
+             android:layout_marginEnd="40dp"
+             android:background="@drawable/rounded_corner"
+             android:text="Chapter 2"
+             android:textColor="@android:color/white"
+             android:textStyle="bold" />
+
+         <Button
+             android:id="@+id/study3"
+             android:layout_width="330dp"
+             android:layout_height="wrap_content"
+             android:layout_alignParentStart="true"
+             android:layout_alignParentEnd="true"
+             android:layout_marginStart="40dp"
+             android:layout_marginTop="20dp"
+             android:layout_marginEnd="40dp"
+             android:background="@drawable/rounded_corner"
+             android:text="Chapter 3"
+             android:textColor="@android:color/white"
+             android:textStyle="bold" />
+
+         <Button
+             android:id="@+id/study4"
+             android:layout_width="330dp"
+             android:layout_height="wrap_content"
+             android:layout_alignParentStart="true"
+             android:layout_alignParentEnd="true"
+             android:layout_marginStart="40dp"
+             android:layout_marginTop="20dp"
+             android:layout_marginEnd="40dp"
+             android:background="@drawable/rounded_corner"
+             android:text="Chapter 4"
+             android:textColor="@android:color/white"
+             android:textStyle="bold" />
+         <com.google.android.gms.ads.AdView
+             xmlns:ads="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/adView2"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="5dp"
+             android:layout_centerHorizontal="true"
+             android:layout_alignParentBottom="true"
+             ads:adSize="BANNER"
+             ads:adUnitId="ca-app-pub-1811294933992844/9254313842">
+         </com.google.android.gms.ads.AdView>
+
+
+         <Button
+             android:id="@+id/study5"
+             android:layout_width="330dp"
+             android:layout_height="wrap_content"
+             android:layout_alignParentStart="true"
+             android:layout_alignParentEnd="true"
+             android:layout_marginStart="40dp"
+             android:layout_marginTop="20dp"
+             android:layout_marginEnd="40dp"
+             android:background="@drawable/rounded_corner"
+             android:text="Chapter 5"
+             android:textColor="@android:color/white"
+             android:textStyle="bold" />
+
+         <Button
+             android:id="@+id/study6"
+             android:layout_width="330dp"
+             android:layout_height="wrap_content"
+             android:layout_alignParentStart="true"
+             android:layout_alignParentEnd="true"
+             android:layout_marginStart="40dp"
+             android:layout_marginTop="20dp"
+             android:layout_marginEnd="40dp"
+             android:background="@drawable/rounded_corner"
+             android:text="Chapter 6"
+             android:textColor="@android:color/white"
+             android:textStyle="bold" />
+
+         <Button
+             android:id="@+id/study7"
+             android:layout_width="330dp"
+             android:layout_height="wrap_content"
+             android:layout_alignParentStart="true"
+             android:layout_alignParentEnd="true"
+             android:layout_marginStart="40dp"
+             android:layout_marginTop="20dp"
+             android:layout_marginEnd="40dp"
+             android:background="@drawable/rounded_corner"
+             android:text="Chapter 7"
+             android:textColor="@android:color/white"
+             android:textStyle="bold" />
+         <com.google.android.gms.ads.AdView
+             xmlns:ads="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/adView3"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="5dp"
+             android:layout_centerHorizontal="true"
+             android:layout_alignParentBottom="true"
+             ads:adSize="BANNER"
+             ads:adUnitId="ca-app-pub-1811294933992844/9254313842">
+         </com.google.android.gms.ads.AdView>
+
+
+         <Button
+             android:id="@+id/study8"
+             android:layout_width="330dp"
+             android:layout_height="wrap_content"
+             android:layout_alignParentStart="true"
+             android:layout_alignParentEnd="true"
+             android:layout_marginStart="40dp"
+             android:layout_marginTop="20dp"
+             android:layout_marginEnd="40dp"
+             android:background="@drawable/rounded_corner"
+             android:text="Chapter 8"
+             android:textColor="@android:color/white"
+             android:textStyle="bold" />
+
+         <Button
+             android:id="@+id/study9"
+             android:layout_width="330dp"
+             android:layout_height="wrap_content"
+             android:layout_alignParentStart="true"
+             android:layout_alignParentEnd="true"
+             android:layout_marginStart="40dp"
+             android:layout_marginTop="20dp"
+             android:layout_marginEnd="40dp"
+             android:background="@drawable/rounded_corner"
+             android:text="Chapter 9"
+             android:textColor="@android:color/white"
+             android:textStyle="bold" />
+
+         <Button
+             android:id="@+id/study10"
+             android:layout_width="330dp"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="40dp"
+             android:layout_marginTop="20dp"
+             android:layout_marginEnd="40dp"
+             android:layout_marginBottom="80dp"
+             android:background="@drawable/rounded_corner"
+             android:text="Chapter 10"
+             android:textColor="@android:color/white"
+             android:textStyle="bold" />
+
+      </LinearLayout>
+
+
+
+
+
+
+</ScrollView>

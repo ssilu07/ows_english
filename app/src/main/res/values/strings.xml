@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">One Words with Trick</string>
+    <string name="light" tools:ignore="ReferenceType">@font/latolight</string>
+
+    <!-- Google AdMob IDs -->
+    <!-- Production App ID: ca-app-pub-1811294933992844~7057711131 -->
+    <string name="admob_app_id">ca-app-pub-1811294933992844~7057711131</string>
+    
+    <!-- Production Banner ID: ca-app-pub-1811294933992844/9254313842 -->
+    <string name="admob_banner_id">ca-app-pub-1811294933992844/9254313842</string>
+    
+    <!-- Production Interstitial ID: ca-app-pub-1811294933992844/4639985605 -->
+    <string name="admob_interstitial_id">ca-app-pub-1811294933992844/4639985605</string>
+
+    <!-- App Promotion & Sharing -->
+    <string name="share_app_text">Download "One Words with Trick" to learn English Vocabulary &amp; One Word Substitutions easily with memory tricks and mnemonics! 🚀\n\nDownload now on Google Play:\nhttps://play.google.com/store/apps/details?id=com.study.vocabspecial_crazywaytolearnenglish</string>
+    <string name="share_word_template">🔥 Learn this English Word with Trick! 🔥\n\nWord: %1$s\nTrick / Key: %2$s\nMeaning: %3$s\n\nLearn 1000+ more words with tricks in "One Words with Trick" App:\nhttps://play.google.com/store/apps/details?id=com.study.vocabspecial_crazywaytolearnenglish</string>
+
+    <!-- Privacy Policy (Google Play Policy Requirement) -->
+    <string name="privacy_policy_url">https://sites.google.com/view/vocab-special-privacy-policy</string>
+</resources>
