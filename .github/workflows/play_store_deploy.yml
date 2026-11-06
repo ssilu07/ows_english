@@ -4,15 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       track:
-        description: 'Google Play Track (internal, alpha, beta, production)'
+        description: 'Google Play Track (production, internal, alpha, beta)'
         required: true
-        default: 'internal'
+        default: 'production'
         type: choice
         options:
+          - production
           - internal
           - alpha
           - beta
-          - production
   push:
     branches:
       - main
@@ -79,13 +79,11 @@ jobs:
           if-no-files-found: warn
 
       - name: Deploy to Google Play
-        if: "${{ secrets.PLAY_CONFIG_JSON != '' }}"
-        env:
-          PLAY_CONFIG_JSON: ${{ secrets.PLAY_CONFIG_JSON }}
+        if: "${{ secrets.PLAY_STORE_JSON_KEY != '' || secrets.PLAY_CONFIG_JSON != '' }}"
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJsonPlainText: ${{ secrets.PLAY_CONFIG_JSON }}
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_JSON_KEY || secrets.PLAY_CONFIG_JSON }}
           packageName: com.study.vocabspecial_crazywaytolearnenglish
           releaseFiles: app/build/outputs/bundle/release/*.aab
-          track: ${{ inputs.track || 'internal' }}
+          track: ${{ inputs.track || 'production' }}
           status: 'completed'
