@@ -1,4 +1,4 @@
-name: Deploy to Google Play Store
+name: Build and Deploy to Google Play Store
 
 on:
   workflow_dispatch:
@@ -14,12 +14,14 @@ on:
           - beta
           - production
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
 jobs:
   build-and-release:
-    name: Build & Upload AAB to Play Console
+    name: Build & Upload to Play Console
     runs-on: ubuntu-latest
 
     steps:
@@ -37,37 +39,47 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Setup Keystore
-        if: "${{ env.KEYSTORE_BASE64 != '' }}"
+        if: "${{ secrets.KEYSTORE_BASE64 != '' }}"
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
           echo "$KEYSTORE_BASE64" | base64 --decode > app/release.keystore
 
-      - name: Build Release Bundle (AAB)
+      - name: Build Release Bundle & APK
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          if [ -f "app/release.keystore" ]; then
-            ./gradlew bundleRelease \
-              -Pandroid.injected.signing.store.file=release.keystore \
+          STORE_FILE="$(pwd)/app/release.keystore"
+          if [ -f "$STORE_FILE" ]; then
+            echo "Signing with release.keystore..."
+            ./gradlew bundleRelease assembleRelease \
+              -Pandroid.injected.signing.store.file="$STORE_FILE" \
               -Pandroid.injected.signing.store.password="$KEYSTORE_PASSWORD" \
               -Pandroid.injected.signing.key.alias="$KEY_ALIAS" \
               -Pandroid.injected.signing.key.password="$KEY_PASSWORD"
           else
-            ./gradlew bundleRelease
+            echo "Building standard bundle and debug apk..."
+            ./gradlew bundleRelease assembleDebug
           fi
 
-      - name: Upload Bundle Artifact
+      - name: Upload Bundle Artifact (AAB for Play Store)
         uses: actions/upload-artifact@v4
         with:
-          name: app-release.aab
-          path: app/build/outputs/bundle/release/*.aab
+          name: app-release-bundle
+          path: app/build/outputs/bundle/**/*.aab
+          if-no-files-found: warn
+
+      - name: Upload APK Artifact (Direct Installable APK)
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: app/build/outputs/apk/**/*.apk
           if-no-files-found: warn
 
       - name: Deploy to Google Play
-        if: "${{ env.PLAY_CONFIG_JSON != '' }}"
+        if: "${{ secrets.PLAY_CONFIG_JSON != '' }}"
         env:
           PLAY_CONFIG_JSON: ${{ secrets.PLAY_CONFIG_JSON }}
         uses: r0adkll/upload-google-play@v1
