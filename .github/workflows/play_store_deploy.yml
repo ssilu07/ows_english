@@ -2,17 +2,6 @@ name: Build and Deploy to Google Play Store
 
 on:
   workflow_dispatch:
-    inputs:
-      track:
-        description: 'Google Play Track (production, internal, alpha, beta)'
-        required: true
-        default: 'production'
-        type: choice
-        options:
-          - production
-          - internal
-          - alpha
-          - beta
   push:
     branches:
       - main
@@ -23,6 +12,12 @@ jobs:
   build-and-release:
     name: Build & Upload to Play Console
     runs-on: ubuntu-latest
+    env:
+      KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      PLAY_STORE_JSON_KEY: ${{ secrets.PLAY_STORE_JSON_KEY }}
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
     steps:
       - name: Checkout Code
@@ -39,17 +34,11 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Setup Keystore
-        if: ${{ secrets.KEYSTORE_BASE64 != '' }}
-        env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        if: env.KEYSTORE_BASE64 != ''
         run: |
           echo "$KEYSTORE_BASE64" | base64 --decode > app/release.keystore
 
       - name: Build Release Bundle & APK
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           STORE_FILE="$(pwd)/app/release.keystore"
           if [ -f "$STORE_FILE" ]; then
@@ -78,20 +67,17 @@ jobs:
           path: app/build/outputs/apk/**/*.apk
           if-no-files-found: warn
 
-      - name: Determine Deployment Track
+      - name: Setup Google Play Service Account
+        if: env.PLAY_STORE_JSON_KEY != ''
         run: |
-          TRACK="${{ github.event.inputs.track }}"
-          if [ -z "$TRACK" ]; then
-            TRACK="production"
-          fi
-          echo "PLAY_TRACK=$TRACK" >> $GITHUB_ENV
+          echo "$PLAY_STORE_JSON_KEY" > play_service_account.json
 
       - name: Deploy to Google Play
-        if: ${{ secrets.PLAY_STORE_JSON_KEY != '' }}
+        if: env.PLAY_STORE_JSON_KEY != ''
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_JSON_KEY }}
+          serviceAccountJson: play_service_account.json
           packageName: com.study.vocabspecial_crazywaytolearnenglish
           releaseFiles: app/build/outputs/bundle/release/*.aab
-          track: ${{ env.PLAY_TRACK }}
-          status: 'completed'
+          track: production
+          status: completed
