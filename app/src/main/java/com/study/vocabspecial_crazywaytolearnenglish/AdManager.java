@@ -3,6 +3,7 @@ package com.study.vocabspecial_crazywaytolearnenglish;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import java.util.Collections;
 
 public class AdManager {
     private static final String TAG = "AdManager";
+    public static final boolean ENABLE_ADS = false; // Ads completely disabled for No-Ads debug/pro build
     private static AdManager instance;
 
     private InterstitialAd mInterstitialAd;
@@ -39,7 +41,16 @@ public class AdManager {
         return instance;
     }
 
+    public boolean isAdsEnabled() {
+        return ENABLE_ADS;
+    }
+
     public void init(@NonNull Context context) {
+        if (!ENABLE_ADS) {
+            Log.d(TAG, "Ads are disabled (No-Ads build). MobileAds will not initialize.");
+            return;
+        }
+
         // Register emulator as safe test device
         RequestConfiguration requestConfiguration = new RequestConfiguration.Builder()
                 .setTestDeviceIds(Collections.singletonList(AdRequest.DEVICE_ID_EMULATOR))
@@ -53,6 +64,10 @@ public class AdManager {
     }
 
     public void loadInterstitial(@NonNull Context context) {
+        if (!ENABLE_ADS) {
+            return;
+        }
+
         if (mInterstitialAd != null || isLoadingInterstitial) {
             return;
         }
@@ -95,6 +110,12 @@ public class AdManager {
     }
 
     public void showInterstitialWithCounter(@NonNull Activity activity, @NonNull Runnable onComplete) {
+        if (!ENABLE_ADS) {
+            // No ads: immediately execute action without delay or interstitial
+            onComplete.run();
+            return;
+        }
+
         clickCount++;
         if (clickCount % INTERSTITIAL_FREQUENCY == 0 && mInterstitialAd != null) {
             mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
@@ -123,7 +144,19 @@ public class AdManager {
     }
 
     public void loadBanner(@NonNull Activity activity, @NonNull ViewGroup container) {
+        if (container == null) {
+            return;
+        }
+
+        if (!ENABLE_ADS) {
+            // In No-Ads mode: clear and collapse container completely so layout fills screen seamlessly
+            container.removeAllViews();
+            container.setVisibility(View.GONE);
+            return;
+        }
+
         try {
+            container.setVisibility(View.VISIBLE);
             AdView adView = new AdView(activity);
             adView.setAdSize(AdSize.BANNER);
             adView.setAdUnitId(activity.getString(R.string.admob_banner_id));

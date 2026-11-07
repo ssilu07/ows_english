@@ -80,8 +80,10 @@
 
             <!-- Image Card -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/imageCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="3dp"
                 app:strokeWidth="0dp">
@@ -193,6 +195,7 @@
         android:id="@+id/detailBannerContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:background="@android:color/white"
         android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"

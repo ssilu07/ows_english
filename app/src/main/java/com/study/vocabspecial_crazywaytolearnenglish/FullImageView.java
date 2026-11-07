@@ -14,6 +14,7 @@ import com.google.android.material.button.MaterialButton;
 
 public class FullImageView extends AppCompatActivity {
     private PhotoView imageView;
+    private com.google.android.material.card.MaterialCardView imageCard;
     private TextView titleTv, keyTv, descriptionTv;
     private ImageView btnBack, btnShareWord;
     private MaterialButton btnShareWordBottom;
@@ -30,6 +31,7 @@ public class FullImageView extends AppCompatActivity {
         setContentView(R.layout.activity_full_image_view);
 
         imageView = findViewById(R.id.imageView);
+        imageCard = findViewById(R.id.imageCard);
         titleTv = findViewById(R.id.title_tv);
         keyTv = findViewById(R.id.key_tv);
         descriptionTv = findViewById(R.id.description_tv);
@@ -54,14 +56,15 @@ public class FullImageView extends AppCompatActivity {
         keyTv.setText(key);
         descriptionTv.setText(description);
 
-        if (imageUrl != null && !imageUrl.isEmpty()) {
+        if (imageUrl != null && !imageUrl.trim().isEmpty()) {
+            if (imageCard != null) imageCard.setVisibility(android.view.View.VISIBLE);
             Glide.with(this)
                     .load(imageUrl)
                     .placeholder(R.drawable.vocab_icon)
                     .error(R.drawable.vocab_icon)
                     .into(imageView);
         } else {
-            imageView.setImageResource(R.drawable.vocab_icon);
+            if (imageCard != null) imageCard.setVisibility(android.view.View.GONE);
         }
 
         // Back button

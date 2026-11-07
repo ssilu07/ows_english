@@ -6,23 +6,47 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
 public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeViewAdapter> {
     private Context context;
     private ArrayList<NoticeData> list;
+    private ArrayList<NoticeData> originalList;
 
     public NoticeAdapter(Context context, ArrayList<NoticeData> list) {
         this.context = context;
         this.list = list;
+        this.originalList = list != null ? new ArrayList<>(list) : new ArrayList<>();
+    }
+
+    public void updateList(ArrayList<NoticeData> newList) {
+        this.list = newList;
+        this.originalList = newList != null ? new ArrayList<>(newList) : new ArrayList<>();
+        notifyDataSetChanged();
+    }
+
+    public void filter(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            list = new ArrayList<>(originalList);
+        } else {
+            String lowerQuery = query.toLowerCase().trim();
+            ArrayList<NoticeData> filtered = new ArrayList<>();
+            for (NoticeData item : originalList) {
+                boolean matchTitle = item.getTitle() != null && item.getTitle().toLowerCase().contains(lowerQuery);
+                boolean matchKey = item.getKey_value() != null && item.getKey_value().toLowerCase().contains(lowerQuery);
+                boolean matchDesc = item.getDescription() != null && item.getDescription().toLowerCase().contains(lowerQuery);
+                if (matchTitle || matchKey || matchDesc) {
+                    filtered.add(item);
+                }
+            }
+            list = filtered;
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -51,20 +75,6 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
 
         holder.Description.setText(currentItem.getDescription() != null ? currentItem.getDescription() : "");
 
-        try {
-            if (currentItem.getImage() != null && !currentItem.getImage().isEmpty()) {
-                Glide.with(context)
-                        .load(currentItem.getImage())
-                        .placeholder(R.drawable.vocab_icon)
-                        .error(R.drawable.vocab_icon)
-                        .into(holder.Image);
-            } else {
-                holder.Image.setImageResource(R.drawable.vocab_icon);
-            }
-        } catch (Exception e) {
-            holder.Image.setImageResource(R.drawable.vocab_icon);
-        }
-
         holder.itemView.setOnClickListener(v -> {
             Runnable openDetails = () -> {
                 Intent intent = new Intent(context, FullImageView.class);
@@ -90,12 +100,10 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
 
     public static class NoticeViewAdapter extends RecyclerView.ViewHolder {
         TextView Title, KeyValue, Description;
-        ImageView Image;
 
         public NoticeViewAdapter(@NonNull View itemView) {
             super(itemView);
             Title = itemView.findViewById(R.id.Title);
-            Image = itemView.findViewById(R.id.Image);
             KeyValue = itemView.findViewById(R.id.key);
             Description = itemView.findViewById(R.id.description);
         }

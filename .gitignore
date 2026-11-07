@@ -12,3 +12,6 @@
 *.aab
 *.jks
 *.keystore
+
+__pycache__/
+*.pyc
