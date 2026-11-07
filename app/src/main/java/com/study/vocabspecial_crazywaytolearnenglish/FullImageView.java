@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
@@ -16,7 +17,7 @@ public class FullImageView extends AppCompatActivity {
     private PhotoView imageView;
     private com.google.android.material.card.MaterialCardView imageCard;
     private TextView titleTv, keyTv, descriptionTv;
-    private ImageView btnBack, btnShareWord;
+    private ImageView btnBack, btnShareWord, btnSpeakWord, btnBookmarkWord;
     private MaterialButton btnShareWordBottom;
     private FrameLayout detailBannerContainer;
 
@@ -25,10 +26,16 @@ public class FullImageView extends AppCompatActivity {
     private String description = "";
     private String imageUrl = "";
 
+    private BookmarkManager bookmarkManager;
+    private TtsManager ttsManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_image_view);
+
+        bookmarkManager = BookmarkManager.getInstance(this);
+        ttsManager = TtsManager.getInstance(this);
 
         imageView = findViewById(R.id.imageView);
         imageCard = findViewById(R.id.imageCard);
@@ -37,6 +44,8 @@ public class FullImageView extends AppCompatActivity {
         descriptionTv = findViewById(R.id.description_tv);
         btnBack = findViewById(R.id.btnBack);
         btnShareWord = findViewById(R.id.btnShareWord);
+        btnSpeakWord = findViewById(R.id.btnSpeakWord);
+        btnBookmarkWord = findViewById(R.id.btnBookmarkWord);
         btnShareWordBottom = findViewById(R.id.btnShareWordBottom);
         detailBannerContainer = findViewById(R.id.detailBannerContainer);
 
@@ -67,6 +76,29 @@ public class FullImageView extends AppCompatActivity {
             if (imageCard != null) imageCard.setVisibility(android.view.View.GONE);
         }
 
+        // Bookmark setup
+        updateBookmarkIcon();
+        if (btnBookmarkWord != null) {
+            btnBookmarkWord.setOnClickListener(v -> {
+                boolean newStatus = bookmarkManager.toggleBookmark(title);
+                updateBookmarkIcon();
+                btnBookmarkWord.animate().scaleX(1.3f).scaleY(1.3f).setDuration(120).withEndAction(() ->
+                        btnBookmarkWord.animate().scaleX(1.0f).scaleY(1.0f).setDuration(120).start()
+                ).start();
+                Toast.makeText(this, newStatus ? "Saved to Starred ⭐" : "Removed from Starred", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        // TTS Pronunciation
+        if (btnSpeakWord != null) {
+            btnSpeakWord.setOnClickListener(v -> {
+                ttsManager.speak(title);
+                btnSpeakWord.animate().scaleX(1.25f).scaleY(1.25f).setDuration(100).withEndAction(() ->
+                        btnSpeakWord.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+                ).start();
+            });
+        }
+
         // Back button
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> finish());
@@ -83,6 +115,13 @@ public class FullImageView extends AppCompatActivity {
         // Load banner ad at bottom
         if (detailBannerContainer != null) {
             AdManager.getInstance().loadBanner(this, detailBannerContainer);
+        }
+    }
+
+    private void updateBookmarkIcon() {
+        if (btnBookmarkWord != null) {
+            boolean isBookmarked = bookmarkManager.isBookmarked(title);
+            btnBookmarkWord.setImageResource(isBookmarked ? R.drawable.ic_star_filled : R.drawable.ic_star_border);
         }
     }
 

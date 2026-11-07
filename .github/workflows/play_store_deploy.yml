@@ -8,6 +8,10 @@ on:
     tags:
       - 'v*'
 
+concurrency:
+  group: play-store-deploy
+  cancel-in-progress: false
+
 jobs:
   build-and-release:
     name: Build & Upload to Play Console

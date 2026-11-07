@@ -33,6 +33,14 @@
             android:exported="false" />
 
         <activity
+            android:name=".FlashcardsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".QuizActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
 
